@@ -111,5 +111,7 @@
         'manage_slides' => 'User can only manage the slides, not the settings',
         'create_slide_shows' => 'Create Slide Shows',
         'create_slide_shows_label' => 'User can create and delete slideshows',
+        'video'=>'video',
+        'video_mp4'=>'mp4 video'
     ],
 ];

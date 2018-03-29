@@ -52,6 +52,15 @@ tabs:
                             75: 'Show Right Middle'
                             100: 'Show Right'
                         type: radio
+                    video:
+                        label: 'peterhegman.slickslider::lang.slickslider.video'
+                        span: left
+                        type: section
+                    video_mp4:
+                        label: 'peterhegman.slickslider::lang.slickslider.video_mp4'
+                        mode: image
+                        span: left
+                        type: mediafinder
         settings1:
             label: 'peterhegman.slickslider::lang.slickslider.toggle_options'
             span: full

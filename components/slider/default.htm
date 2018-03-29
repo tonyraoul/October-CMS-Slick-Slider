@@ -43,11 +43,11 @@
 				responsive: {{slider.slides.breakpointJson|raw}}
 			};
 			$('.slick-slider-{{slider.slides.slideShows.id}}').slick(args);
-
-			// $(window).resize(function() {
+			$("video[autoplay]").each(function(){ this.play(); });
+			$(window).resize(function() {
 			// 	$('.slick-slider-{{slider.slides.slideShows.id}}').slick('unslick');
 			// 	$('.slick-slider-{{slider.slides.slideShows.id}}').slick(args);
-			// });
+			});
 		});
 
     </script>
@@ -78,6 +78,32 @@
     		color: #ffffff;
     		text-align: center;
     	}
+		.slide-content{
+			z-index: 4;
+		}
+		.slick-video-container{
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				left:0;
+				width: 100%;
+				height: 100%; 
+				overflow: hidden;
+		}
+		.slick-video{
+				min-width: 100%; 
+				min-height: 100%; 
+				width: auto;
+				height: auto;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				-webkit-transform: translate3d(-50%,-50%,0);
+				-moz-transform: translate(-50%,-50%);
+				-ms-transform: translate(-50%,-50%);
+				-o-transform: translate(-50%,-50%);
+				transform: translate(-50%,-50%);
+		}
     	{% for breakpoint in slider.slides.slideShows.responsive %}
 
     		@media (max-width: {{breakpoint.breakpoint}}px) {
@@ -91,29 +117,63 @@
 {% endput %}
 <div class="slick-slider-{{slider.slides.slideShows.id}}">
 	{% for slide in slider.slides.slideShows.slide_show_content %}
-		{% if slide.slide_link != '' %}
-			<a href="{{slide.slide_link}}" class="slide">
-		        <div class="slide-image" style="background-image: url( '{{slide.slide_image|media}}' ); background-position: {{slide.image_horizontal_position}}% {{slide.image_position}}%;">
-		        	{% if (slide.slide_title or slide.slide_description) %}
-	        		<div class="slide-content">
-	        			<h1>{{slide.slide_title}}</h1>
-	        			<p>{{slide.slide_description}}</p>
-	    			</div>
-		        	{% endif %}
-		        </div>
-	        </a>
-        {% else %}
-        	<div class="slide">
-		        <div class="slide-image" style="background-image: url( '{{slide.slide_image|media}}' ); background-position: {{slide.image_horizontal_position}}% {{slide.image_position}}%;">
-		        	{% if (slide.slide_title or slide.slide_description) %}
-	        		<div class="slide-content">
-	        			<h1>{{slide.slide_title}}</h1>
-	        			<p>{{slide.slide_description}}</p>
-	    			</div>
-		        	{% endif %}
-		        </div>
-	        </div>
-        {% endif %}
+		{% if slide.video_mp4 != '' %}
+			{% if slide.slide_link != '' %}
+				<a href="{{slide.slide_link}}" class="slide">
+					<div class="slide-image" style="background-image: url( '{{slide.slide_image|media}}' ); background-position: {{slide.image_horizontal_position}}% {{slide.image_position}}%;">
+						{% if (slide.slide_title or slide.slide_description) %}
+												<div class="slide-content">
+													<h1>{{slide.slide_title}}</h1>
+													<p>{{slide.slide_description}}</p>
+												</div>
+						{% endif %}
+						<div class="slick-video-container">
+							<video class="slick-video" autoplay muted loop>
+								<source src="{{slide.video_mp4|media}}" type="video/mp4">
+							</video>
+						</div>
+					</div>
+				</a>
+			{% else %}
+					<div class="slide-image" style="background-image: url( '{{slide.slide_image|media}}' ); background-position: {{slide.image_horizontal_position}}% {{slide.image_position}}%;">
+						{% if (slide.slide_title or slide.slide_description) %}
+												<div class="slide-content">
+													<h1>{{slide.slide_title}}</h1>
+													<p>{{slide.slide_description}}</p>
+												</div>
+						{% endif %}
+						<div class="slick-video-container">
+							<video class="slick-video" autoplay muted loop>
+								<source src="{{slide.video_mp4|media}}" type="video/mp4">
+							</video>
+						</div>
+					</div>
+			{% endif %}
+		{% else %}
+			{% if slide.slide_link != '' %}
+				<a href="{{slide.slide_link}}" class="slide">
+					<div class="slide-image" style="background-image: url( '{{slide.slide_image|media}}' ); background-position: {{slide.image_horizontal_position}}% {{slide.image_position}}%;">
+						{% if (slide.slide_title or slide.slide_description) %}
+						<div class="slide-content">
+							<h1>{{slide.slide_title}}</h1>
+							<p>{{slide.slide_description}}</p>
+						</div>
+						{% endif %}
+					</div>
+				</a>
+			{% else %}
+				<div class="slide">
+					<div class="slide-image" style="background-image: url( '{{slide.slide_image|media}}' ); background-position: {{slide.image_horizontal_position}}% {{slide.image_position}}%;">
+						{% if (slide.slide_title or slide.slide_description) %}
+						<div class="slide-content">
+							<h1>{{slide.slide_title}}</h1>
+							<p>{{slide.slide_description}}</p>
+						</div>
+						{% endif %}
+					</div>
+				</div>
+			{% endif %}
+		{% endif %}
     {% endfor %}
 </div>
 {% endif %}
